@@ -1,151 +1,68 @@
-![](docs/images/banner_thin.png)
+# CPR Aerospace QC — Quality Control & Process Capability Tool
 
-# 🎯 Cornell Six Sigma Hackathon
-
-*Tackle real-world quality control problems drawn from industrial engineering,
-healthcare systems, and energy systems!*
+**CPR Aerospace QC** is a production-grade monitoring and quality control web application and analysis engine designed for process engineers managing 3D printing lines for titanium aerospace brackets.
 
 ---
 
-Your team picks a prompt, creates the data, and ships a working quality-control
-tool. **👉 [Register on Devpost](https://six-sigma-hackathon.devpost.com/)**
-(required, even if you don't have a team yet).
-
-### 📍 When & where
-
-| | 🏫 On-campus (24 hours) | 🌐 Virtual DL Challenge (7 days) |
-|---|---|---|
-| **Who** | on-campus students (required unless excused) | distance-learning students, and anyone who can't attend in person |
-| **Runs** | Fri Oct 16, 3 PM → Sat Oct 17, 3 PM ET | Fri Oct 16, 3 PM → Fri Oct 23, 3 PM ET |
-| **Where** | Upson Hall 116 | online |
-| **Submissions due** | Sat Oct 17, **1 PM ET** sharp | Fri Oct 23, **3 PM ET** |
-| **Showcase** | Sat Oct 17, 2-3 PM (must attend) | — |
-
-Submit on **[Devpost](https://six-sigma-hackathon.devpost.com/)**: your repo
-link plus a demo. Full run of show: [🗓️ Schedule](docs/schedule.md).
+## What the Tool Does
+The tool ingests high-frequency process telemetry logs (`process_logs.csv`) measuring **Temperature (°C)**, **Pressure (PSI)**, and **Stress Yield (MPa)**. It computes rigorous Statistical Process Control (SPC) limits, performs Process Capability Analysis ($C_p$ and $C_{pk}$), runs tests for normality, flags out-of-control subgroups, and returns actionable engineering recommendations (e.g., immediate machine calibration vs. process stable).
 
 ---
 
-### Quick Links
-
-- [🗓️ Schedule of Events](docs/schedule.md)
-- [💬 Prompts](docs/prompts.md) — *revealed at the start of the event*
-- [🔢 Evaluation Criteria](docs/criteria.md)
-- [📚 Resources for Building Your Tool](docs/resources.md)
-- [🧰 Starter Templates](demos/README.md)
-- [🤖 Agent Start Tutorial](docs/start.md) — type `/superagent` and your agent reads it for you
-- [⁉️ FAQ](#️-frequently-asked-questions)
+## For Whom
+- **Primary User:** The process engineer monitoring the 3D printing line for titanium aerospace brackets.
+- **Decision Supported:** Whether the current printing process is capable of meeting strict aerospace tolerances or requires an immediate machine calibration after each production run.
 
 ---
 
-> ### 📘🤖 New here? Read the [step-by-step start tutorial](docs/start.md) first
-> Ten minutes, for the whole team: set up your agent, **plan with `/superagent` on your
-> strongest model**, then **switch to a cheaper model** that builds and checks each task with
-> helper agents. **[→ docs/start.md](docs/start.md)**
-
-
-### 💡 The Challenge
-
-Your team tackles one real-world quality control and reliability problem.
-
-- 🧩 Prompts are released **at kickoff** — each tied to a dataset you design and
-  build yourself
-- 📊 **The statistics are the graded core.** Statistical process control,
-  process capability, reliability modeling, failure analysis. The app is the
-  delivery vehicle for the analysis, not the point
-- 🧱 Ship a a dashboard / web app (React), plus **one** of: an R package or Python library AND/OR a public REST API
-  (FastAPI or plumber).
-- 🚀 Deploy it live to the course **Posit Connect** server
-- 🔢 Every project is scored 0-100 by the event staff.
-  [Read the criteria](docs/criteria.md)
+## Inputs and Parameters
+- **Input File:** `process_logs.csv` (or any of the test datasets in `data/`).
+- **Columns:**
+  - `Temperature` (°C): Printer chamber temperature logs.
+  - `Pressure` (PSI): Chamber pressure telemetry.
+  - `Stress_Yield_MPa` (MPa): Measured yield stress per printed part.
+- **Parameters:**
+  - `subgroup_size`: Default = 5.
+  - `usl`: Upper Specification Limit (Default = 950 MPa).
+  - `lsl`: Lower Specification Limit (Default = 850 MPa).
 
 ---
 
-### 🤖 Build with AI — bring your own agent
+## How Each Function or Endpoint Works
 
-AI-assisted development is **expected and encouraged**. Use whatever you already
-have. The skill being tested is steering a capable assistant toward
-statistically correct work — which is exactly the skill this course is about.
+### 1. Core Statistical Engine (`app/qc.py`)
+Implements plain, tested functions adhering strictly to the Six Sigma methodology:
+- **X-bar Chart Limits:** Computes subgroup means and limits using factor $A_2$.
+- **R Chart Limits:** Computes subgroup ranges and limits using factors $D_3$ and $D_4$.
+- **$\hat{\sigma}$ (Sigma-hat):** Computed strictly via $\bar{R} / d_2$ (never overall sample standard deviation, ensuring accurate $C_p$ and $C_{pk}$ estimation).
+- **Process Capability ($C_p, C_{pk}$):** Evaluates potential and actual process capability against specification limits.
+- **Normality Test:** Executes the Shapiro-Wilk test on raw telemetry values.
+- **Out-of-Control Flags:** Evaluates each subgroup against X-bar and R control boundaries.
 
-- [🧠 AI coding agents](docs/agents.md) — the popular ones, and how to pick
-- [🎙️ Tools](docs/tools.md) — Wispr Flow (talk to your agent) and Open Design
-- [`CLAUDE.md`](CLAUDE.md) / [`AGENTS.md`](AGENTS.md) — what the event is, the
-  repo map, the deploy target, the four-script contract
-- [`.claude/skills/superagent/`](.claude/skills/superagent/SKILL.md) — the one
-  skill you need: type `/superagent` and it routes to every other skill and
-  template for you. They all live in [`.claude/skills/`](.claude/skills/) if you
-  want to read them
-
-Two rules: everything you ship is **public and reproducible**, and you must be
-able to **explain every number your tool prints**.
+### 2. FastAPI REST Endpoints (`app/main.py`)
+- `GET /`: Serves the interactive React frontend dashboard.
+- `POST /api/analyze`: Ingests uploaded CSV telemetry files or selects built-in test datasets, running the full statistical analysis and returning structured JSON results with actionable engineering recommendations.
 
 ---
 
-### ⁉️ Frequently Asked Questions
+## How to Run It in One Command
+From the root of the repository, start the FastAPI application using the `testme` script:
 
-- **Who can participate?** Cornell students who are (a) in the Systems
-  Engineering MEng/MS program, OR (b) enrolled in SYSEN 5300 / MAE 5390, OR
-  (c) enrolled in SYSEN 5900. Teams of **2 to 5**.
+```bash
+bash app/testme.sh
+```
 
-- **On-campus or virtual?** On-campus students do the 24-hour event in Upson
-  Hall 116 (required unless excused). Distance-learning students, and anyone
-  who can't attend in person, do the 7-day Virtual DL Challenge.
-  [Dates above](#-when--where).
-
-- **What are the deadlines?** On-campus: submissions due Sat Oct 17, 1 PM ET
-  sharp; showcase Sat Oct 17, 2-3 PM (must attend). DL: submissions due
-  Fri Oct 23, 3 PM ET.
-
-- **What do we win?** On-campus winners: dinner for the team at the Statler
-  Dining Room. DL winners: bragging rights — infamy for all time.
-
-- **Do I need Six Sigma experience?** No. Trainings are provided during the
-  event, and many of the analyses can be learned in a few minutes. The
-  [course textbook](https://timothyfraser.com/sigma/) is open to everyone.
-
-- **Do I have to be a coding wizard?** No. Some prior experience in R or Python
-  is enough, and AI assistants close a lot of the gap. A winning project is a
-  smart, correct solution to a quality-control problem — not fancy code.
-
-- **What if I can't find team members?** Register on
-  [Devpost](https://six-sigma-hackathon.devpost.com/) anyway; we will match
-  you with a team.
-
-- **Do I have to be there the whole 24 hours?** A successful team works most of
-  it. Step out, sleep, stagger breaks — just keep someone on the team present.
-
-- **Can a teammate join the on-campus event remotely?** No. Anyone who can't
-  attend in person does the Virtual DL Challenge instead.
-
-- **What do we submit?** On Devpost: a link to your public GitHub repository
-  and a demo of a working prototype, deployed live to Posit Connect. At least
-  one team member needs a working (non-Cornell) GitHub account.
-
-- **What software do I need?** Install R or Python and at least one coding
-  interface (RStudio, VSCode, Cursor, Positron, ...) **before** the event
-  starts. If you plan to use an AI assistant, set it up beforehand too.
-
-- **What language should I use?** R, Python, or both. Code must be fully
-  reproducible and public.
-
-- **How are products evaluated?** Scored 0-100 by event staff on
-  [the criteria](docs/criteria.md): tool implementation (50), tool design
-  (25), documentation (25).
+Or on Windows PowerShell:
+```powershell
+python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+```
 
 ---
 
-### 👥 How to Join
-
-[Register on Devpost](https://six-sigma-hackathon.devpost.com/) — registration
-is required. Form a team of 2 to 5, or register solo and we'll match you.
+## Live URL
+- **Posit Connect Deployment URL:** *Coming soon / deployed via H-06 workflow.*
 
 ---
 
-### 📚 Sign Up to Mentor
-
-Faculty, postdocs, PhD students, and developers are welcome as mentors.
-[Details here](docs/mentors.md).
-
----
-
-![](docs/images/banner_icons.png)
+## Walkthrough & Demo Datasets
+Detailed walkthroughs of the tool across all test datasets (`capable.csv`, `incapable_drift.csv`, `incapable_high_variance.csv`) are documented in [demo/README.md](demo/README.md).

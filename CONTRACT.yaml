@@ -125,7 +125,7 @@ tasks:
   - id: H-07
     title: README and function documentation
     points: "10 - Tool Documentation: excellent, easy-to-follow documentation"
-    status: todo
+    status: done
     owner: ""
     started_at: ""
     owns: ["README.md", "app/README.md"]
@@ -137,7 +137,7 @@ tasks:
       how each function or endpoint works, how to run it in one command, the
       live URL, and links demo/README.md. A teammate who did not write the
       code follows it from a fresh clone and it works.
-    result: ""
+    result: "README.md fully documents the tool, user, inputs, parameters, functions, and links demo/README.md, verified via testme and walkthroughs."
 
   - id: H-08
     title: Reproducible public repo, submitted on Devpost
