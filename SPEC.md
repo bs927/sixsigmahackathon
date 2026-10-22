@@ -9,15 +9,15 @@ Most of this page is already decided by the event and the [rubric](docs/criteria
 The examples after each `FILL IN` show the shape of an answer. They are not hints about the prompts.
 
 ## 1. Team and prompt
-- **Team name:** FILL IN. Example: "Control Freaks"
-- **Track:** FILL IN, on-campus (24 hours) or Virtual DL Challenge (7 days). See [`docs/schedule.md`](docs/schedule.md).
-- **Prompt we chose:** FILL IN, the prompt number and title, copied from the [Devpost](https://six-sigma-hackathon.devpost.com/) challenge page at kickoff.
-- **Our public repo:** FILL IN. Example: "github.com/our-team/our-tool"
+- **Team name:** "CPR Aerospace QC"
+- **Track:** 7-day Virtual DL Challenge
+- **Prompt we chose:** "3D Printing for Aerospace"
+- **Our public repo:** "https://github.com/bs927/sixsigmahackathon"
 
 ## 2. User and use case (rubric: scope 5, user and use case 5)
-- **User:** FILL IN, one named kind of person, not "everyone". Example: "the supervisor who checks part diameters at the end of each shift"
-- **Decision the tool helps them make, and when:** FILL IN. Example: "whether to stop the line and recalibrate before the next shift starts"
-- **Why this matches the prompt:** FILL IN, one sentence.
+- **User:** the process engineer monitoring the 3D printing line for titanium aerospace brackets
+- **Decision the tool helps them make, and when:** whether the current printing process is capable of meeting tolerances or requires an immediate machine calibration after each production run
+- **Why this matches the prompt:** it provides direct environmental and stress parameter tracking for critical titanium parts to ensure aerospace compliance.
 
 ## 3. Inputs (rubric: minimal inputs 5)
 Only what this user can actually measure or already knows. Fewer is better; every input a user
@@ -25,14 +25,16 @@ cannot measure costs points.
 
 | Input | Type and units | Where the user gets it |
 |---|---|---|
-| FILL IN. Example: `measurements.csv`, one row per part | numeric, mm | their gauge log |
+| `process_logs.csv` | numeric (Temperature °C, Pressure PSI, Stress Yield MPa), one row per part | printer control logs |
 
 ## 4. The statistics, and why (rubric: valid QC analysis 25)
 Say the method in words before any code exists. Load the `stats-first-steering` skill first.
-- **Method:** FILL IN. Example: "X-bar and R chart, subgroups of 5, limits from the average range"
-- **Why it fits the use case:** FILL IN, one sentence.
-- **Assumptions and how the tool checks them:** FILL IN. Example: "normality: histogram plus Shapiro-Wilk in the demo"
-- **Known-answer check:** FILL IN, a textbook example or hand calculation the function must reproduce.
+- **Method:** Process Capability Analysis (Cp and Cpk), assuming a specification limit (e.g., target stress 900 MPa ± 50 MPa)
+- **Why it fits the use case:** it quantitatively confirms if the process spread fits within strict aerospace tolerance limits.
+- **Assumptions and how the tool checks them:** Normality: use a histogram and a Shapiro-Wilk test to confirm the data follows a normal distribution.
+- **Known-answer check:** Given Upper Spec Limit (USL) = 950, Lower Spec Limit (LSL) = 850, Process Mean ($\mu$) = 900, Standard Deviation ($\sigma$) = 10. $Cpk = \min((USL-\mu)/(3\sigma), (\mu-LSL)/(3\sigma)) = \min((950-900)/(30), (900-850)/(30)) = \min(1.67, 1.67) = 1.67$.
+
+Fixed for every team:
 
 Fixed for every team:
 - The statistic lives in **one plain, tested function** (`app/qc.py` or `app/qc.R`). The API, app or
@@ -41,8 +43,8 @@ Fixed for every team:
 - You can explain every number the tool prints. If you cannot, it is not done.
 
 ## 5. Delivery (rubric: working tool 25)
-- **Stack:** FILL IN, one of: R package, Python library, REST API (FastAPI or plumber), dashboard (React or Shiny).
-- **Starting demo:** FILL IN, the one folder copied from [`demos/`](demos/README.md) into `app/`. Example: `demos/fastapi/`
+- **Stack:** REST API (FastAPI)
+- **Starting demo:** `demos/fastapi/`
 
 Fixed for every team:
 - Start from **one** demo in `demos/`, copied to `app/`. Keep its four-script contract
@@ -53,14 +55,13 @@ Fixed for every team:
 - A small tool that runs beats a large tool that does not.
 
 ## 6. Outputs
-- **What the user sees:** FILL IN, a number, chart or pass/fail, with units and a one-line "how to read this".
-  Example: "a control chart with out-of-control points in red, plus 'stop the line: yes/no'"
+- **What the user sees:** A capability dashboard showing the calculated Cpk value, a Pass/Fail status based on aerospace tolerances, and an actionable recommendation (e.g., "Calibration required" or "Process stable").
 
 ## 7. Test datasets and codebook (rubric: demo 10, datasets 5, codebook 5)
 2-3 small CSVs in `data/`, invented but shaped like real field data, each showing one behavior.
 `data/README.md` is the codebook: every file, every column with units, and what it would take to
 collect this data for real.
-- **Datasets:** FILL IN. Example: "`in_control.csv`, `planted_shift.csv` (mean shifts at row 40), `edge_case.csv` (one subgroup)"
+- **Datasets:** `capable.csv` (all parts meet tolerance), `incapable_drift.csv` (mean shift causing tolerance breach), `incapable_high_variance.csv` (high volatility causing tolerance breach).
 
 ## 8. Documentation and reproducibility (rubric: docs 10, public repo 5)
 - `README.md` says what the tool does, for whom, every input and parameter, how to run it in one
@@ -71,4 +72,4 @@ collect this data for real.
 ## 9. Out of scope
 What we will NOT build, so nobody (human or agent) builds it by accident.
 - Default: logins, databases, real customer data, a second statistic before the first one is tested.
-- FILL IN, anything else. Example: "no forecasting; no multi-plant comparison"
+- No automated printer control, no maintenance scheduling, no multi-material support.
