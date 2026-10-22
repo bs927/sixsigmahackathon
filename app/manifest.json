@@ -3,7 +3,7 @@
   "locale": "English_United States.1252",
   "metadata": {
     "appmode": "python-fastapi",
-    "entrypoint": "app.py:app"
+    "entrypoint": "app:app"
   },
   "python": {
     "version": "3.15.0",
@@ -20,7 +20,7 @@
   },
   "files": {
     "requirements.txt": {
-      "checksum": "76eeebd9073323245b8cc0d782733086"
+      "checksum": "bc4e3105ec7abf116d98d37984645a57"
     },
     ".python-version": {
       "checksum": "c3052f53ccf07991da5591cab5ee1274"

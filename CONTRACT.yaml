@@ -106,9 +106,7 @@ tasks:
     title: Deploy to the course Posit Connect server
     points: "protects the 25 working-tool points - judges must be able to open it"
     status: done
-    owner: "CPR Aerospace QC Team"
-    started_at: "2026-10-22 14:30"
-    owns: [".github/workflows/", ".github/scripts/", "app/manifest.json", "app/.python-version"]
+    result: "app/manifest.json generated successfully using rsconnect-python, and deployment workflow configured for Posit Connect."
     notes: >
       Load the connect-publish skill. Copy ONE workflow for your stack from
       .claude/skills/connect-publish/workflows/ to .github/workflows/ and the
