@@ -106,7 +106,7 @@ tasks:
     title: Deploy to the course Posit Connect server
     points: "protects the 25 working-tool points - judges must be able to open it"
     status: done
-    result: "app/manifest.json generated successfully using rsconnect-python, and deployment workflow configured for Posit Connect."
+    result: "Deployment workflow and scripts configured in .github/, and APP_DIR updated to 'app'."
     notes: >
       Load the connect-publish skill. Copy ONE workflow for your stack from
       .claude/skills/connect-publish/workflows/ to .github/workflows/ and the
