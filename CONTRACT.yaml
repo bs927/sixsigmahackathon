@@ -45,7 +45,7 @@ tasks:
   - id: H-02
     title: Two or three test datasets plus a codebook
     points: "10 - Tool Documentation: 2-3 working test datasets (5), codebook and README for the data (5)"
-    status: todo
+    status: done
     owner: ""
     started_at: ""
     owns: ["data/"]
@@ -53,7 +53,7 @@ tasks:
       ls data/*.csv lists 2 or 3 files (e.g. in control, planted shift, edge
       case), and data/README.md names every one of them and describes every
       column with units and how the data would be collected for real.
-    result: ""
+    result: "data/ directory contains capable.csv, incapable_drift.csv, and incapable_high_variance.csv, and data/README.md fully describes every file and column with units and collection methods."
 
   - id: H-03
     title: Core QC statistic as one plain, tested function
