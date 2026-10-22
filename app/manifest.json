@@ -15,7 +15,7 @@
   },
   "environment": {
     "python": {
-      "requires": "~=3.12.0"
+      "requires": "~=3.15.0"
     }
   },
   "files": {
@@ -23,7 +23,7 @@
       "checksum": "bc4e3105ec7abf116d98d37984645a57"
     },
     ".python-version": {
-      "checksum": "c3052f53ccf07991da5591cab5ee1274"
+      "checksum": "481b7fcd5d06cbf80ea873cfdc77d483"
     },
     "README.md": {
       "checksum": "f91831d4e6760ef651f0ee7352b2c444"
