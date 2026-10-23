@@ -893,7 +893,19 @@
       "checksum": "5399071bf9da5f53916c26a17f265a70"
     },
     "app.R": {
-      "checksum": "0a6648b0d8d78bfcd5e2ed22a0baa078"
+      "checksum": "0ff66fe4880a123505fd29f88eca0a0e"
+    },
+    "data/capable.csv": {
+      "checksum": "a600dcd29cfd15613d9db2ce4ba72bb0"
+    },
+    "data/incapable_drift.csv": {
+      "checksum": "c719b1debfbc1cc6c260dbfa6cdd4813"
+    },
+    "data/incapable_high_variance.csv": {
+      "checksum": "e609cbbfe61ef9dce3681e95856051a0"
+    },
+    "data/README.md": {
+      "checksum": "077057f6399ac9ee31f363b993e8e84c"
     },
     "deployme.sh": {
       "checksum": "870e894f03e12728afae12fb7f6fd3f4"
@@ -903,6 +915,9 @@
     },
     "qc.py": {
       "checksum": "285e4ea5ac9dd978d2dcf626d11ac8ff"
+    },
+    "qc.R": {
+      "checksum": "25023a56b75ea9e6f41f3c18344a7ece"
     },
     "README.md": {
       "checksum": "f91831d4e6760ef651f0ee7352b2c444"
