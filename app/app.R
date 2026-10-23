@@ -22,7 +22,7 @@ server = function(input, output) {
     
     # Load your data here - assuming 'data/capable.csv' exists as a sample
     data <- reactive({
-        read.csv("app/data/capable.csv")
+        read.csv("data/capable.csv")
     })
     
     analysis <- reactive({
