@@ -1,67 +1,47 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    https://shiny.posit.co/
-#
-
 library(shiny)
+source("qc.R")
 
-
-# Define UI for application that draws a histogram
+# Define UI
 ui <- fluidPage(
-
-    # Application title
-    titlePanel("Old Faithful Geyser Data"),
-
-    # Sidebar with a slider input for number of bins 
+    titlePanel("Six Sigma Quality Control Analysis"),
     sidebarLayout(
         sidebarPanel(
-          
-          # input = list(bins = 30)
-          # input$bins --> 30
-            sliderInput(inputId = "bins", 
-                        label = "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
+            sliderInput("bins", "Number of bins:", 1, 50, 30),
+            numericInput("usl", "Upper Specification Limit:", 950),
+            numericInput("lsl", "Lower Specification Limit:", 850)
         ),
-
-        # Show a plot of the generated distribution
         mainPanel(
-          # output$distPlot
-          # textOutput("distPlot") <- "text"
-          # verbatimTextOutput("distPlot") <- "text"
-          # tableOutput("distPlot") <-- data.frame
-           plotOutput("distPlot"), # <-- ggplot object
-           textOutput("textthing")
+            plotOutput("distPlot"),
+            verbatimTextOutput("qcResults")
         )
     )
 )
 
-# Define server logic required to draw a histogram
+# Define server
 server = function(input, output) {
-
-    output$distPlot = renderPlot({
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white',
-             xlab = 'Waiting time to next eruption (in mins)',
-             main = 'Histogram of waiting times')
+    
+    # Load your data here - assuming 'data/capable.csv' exists as a sample
+    data <- reactive({
+        read.csv("../data/capable.csv")
     })
     
-    output$textthing = renderText({
-      input$bins
+    analysis <- reactive({
+        compute_qc_analysis(data(), value_col = "Stress_Yield_MPa", usl = input$usl, lsl = input$lsl)
+    })
+
+    output$distPlot = renderPlot({
+        vals <- data()$Stress_Yield_MPa
+        hist(vals, breaks = input$bins, col = 'darkgray', border = 'white',
+             main = 'Distribution of Stress Yield')
+    })
+    
+    output$qcResults = renderPrint({
+        res <- analysis()
+        cat("Grand Mean:", res$grand_mean, "\n")
+        cat("Cp:", res$cp, "\n")
+        cat("Cpk:", res$cpk, "\n")
+        cat("Shapiro-Wilk p-value:", res$shapiro_p, "\n")
     })
 }
 
-# Run the application 
 shinyApp(ui = ui, server = server)
-
-
-
