@@ -26,11 +26,11 @@ server = function(input, output) {
     })
     
     analysis <- reactive({
-        compute_qc_analysis(data(), value_col = "Stress_Yield_MPa", usl = input$usl, lsl = input$lsl)
+        compute_qc_analysis(data(), value_col = "stress_yield", usl = input$usl, lsl = input$lsl)
     })
 
     output$distPlot = renderPlot({
-        vals <- data()$Stress_Yield_MPa
+        vals <- data()$stress_yield
         hist(vals, breaks = input$bins, col = 'darkgray', border = 'white',
              main = 'Distribution of Stress Yield')
     })
