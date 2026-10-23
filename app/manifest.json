@@ -2,8 +2,8 @@
   "version": 1,
   "locale": "English_United States.1252",
   "metadata": {
-    "appmode": "python-fastapi",
-    "entrypoint": "app:app"
+    "appmode": "python-shiny",
+    "entrypoint": "app"
   },
   "python": {
     "version": "3.15.0",
@@ -20,7 +20,7 @@
   },
   "files": {
     "requirements.txt": {
-      "checksum": "bc4e3105ec7abf116d98d37984645a57"
+      "checksum": "4042f83eb0161e95e0519cfdd47c5e9e"
     },
     ".python-version": {
       "checksum": "481b7fcd5d06cbf80ea873cfdc77d483"
@@ -28,8 +28,11 @@
     "README.md": {
       "checksum": "f91831d4e6760ef651f0ee7352b2c444"
     },
+    "app.R": {
+      "checksum": "0a6648b0d8d78bfcd5e2ed22a0baa078"
+    },
     "app.py": {
-      "checksum": "c5ad8072c7231759e6160526877f97f9"
+      "checksum": "75d50d193fd130fe0c46eb284109e1a0"
     },
     "deployme.sh": {
       "checksum": "870e894f03e12728afae12fb7f6fd3f4"
@@ -42,6 +45,9 @@
     },
     "testme.sh": {
       "checksum": "b1e70505a19ad1bb993a979eacdb461d"
+    },
+    "workflow.R": {
+      "checksum": "de389f455ebd4e861a209faf12b20a33"
     }
   }
 }
