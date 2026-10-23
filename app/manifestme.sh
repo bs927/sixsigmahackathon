@@ -15,6 +15,6 @@ python -m pip install rsconnect-python
 echo "Writing manifest.json for FastAPI app..."
 # Entry point is app.py with ASGI object named 'app'. FastAPI is ASGI, so the mode is
 # `fastapi` (the older `api` mode is WSGI and fails on Connect).
-rsconnect write-manifest fastapi . --entrypoint app:app
+rsconnect write-manifest shiny . --entrypoint app.py
 
 echo "Done. manifest.json created in: $SCRIPT_DIR"
