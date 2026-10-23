@@ -39,7 +39,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  APP_DIR: '.'                       # folder holding app.R + manifest.json
+  APP_DIR: 'app'                       # folder holding app.R + manifest.json
   CONTENT_NAME: ${{ github.repository_owner }}-${{ github.event.repository.name }}-shiny
   CONTENT_TITLE: ${{ github.event.repository.name }} dashboard
   HEALTH_PATH: '/'                   # the app's front page must answer 200
