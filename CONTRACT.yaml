@@ -74,15 +74,15 @@ tasks:
   - id: H-04
     title: Working tool - one demo copied to app/ and wired to the H-03 function
     points: "25 - Tool Implementation: an effective, working tool (does it run?)"
-    status: in_progress
+    status: done
     owner: "CPR Aerospace QC Team"
     started_at: "2026-10-22 16:30"
     owns: ["app/"]
     notes: >
-      Switching from FastAPI to Shiny. Replacing app.py and requirements.txt.
+      Switched from FastAPI to Shiny. Replaced app.py and requirements.txt with Shiny app structure.
     definition_of_done: >
       The shiny app runs locally (shiny run app/app.py) and computes the same H-03 metrics.
-    result: ""
+    result: "Successfully built and wired the Shiny application in app/ with app.py, running locally and correctly computing capability metrics."
 
   - id: H-05
     title: Demonstration of the tool on every test dataset

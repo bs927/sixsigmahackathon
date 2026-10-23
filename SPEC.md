@@ -43,8 +43,8 @@ Fixed for every team:
 - You can explain every number the tool prints. If you cannot, it is not done.
 
 ## 5. Delivery (rubric: working tool 25)
-- **Stack:** REST API (FastAPI)
-- **Starting demo:** `demos/fastapi/`
+- **Stack:** Shiny Web App (Python)
+- **Starting demo:** `demos/shinyapp/`
 
 Fixed for every team:
 - Start from **one** demo in `demos/`, copied to `app/`. Keep its four-script contract
